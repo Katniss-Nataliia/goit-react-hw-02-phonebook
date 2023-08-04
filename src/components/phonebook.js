@@ -43,6 +43,8 @@ export class PhoneBook extends Component {
                 name: '',
                 number: ''
             });
+        } else if(name.find(item => item.id === e.id)){
+            window.alert("error")
         }
     };
     handleFilterChange = e => {
@@ -90,12 +92,6 @@ export class PhoneBook extends Component {
                 onChange={handleFilterChange}
                 
                 />
-
-
-
-
-
-
 
                 {contacts.length === 0 ? (
                     // Display "No contacts" if there are no contacts in the 'contacts' array
