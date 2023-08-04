@@ -45,10 +45,15 @@ export class PhoneBook extends Component {
             });
         }
     };
+    handleFilterChange = e => {
+        this.setState({
+            filter: e.target.value
+        })
+    }
 
     render() {
-        const { number, name, contacts } = this.state;
-        const { handleChange, handleNumberChange, handleSubmit } = this;
+        const { number, name, contacts, filter } = this.state;
+        const { handleChange, handleNumberChange, handleSubmit, handleFilterChange } = this;
 
         return (
             <div>
@@ -81,9 +86,13 @@ export class PhoneBook extends Component {
                 <input
                 type="text"
                 placeholder="Search by name"
-                
+                value={filter}
+                onChange={handleFilterChange}
                 
                 />
+
+
+
 
 
 
@@ -94,12 +103,17 @@ export class PhoneBook extends Component {
                 ) : (
                     // Display the list of contacts using the 'ul' and 'li' elements
                     <ul>
-                        {contacts.map(({name, number, id }) => (
-                           
+                        {contacts.filter(filter => filter.includes({name})).map(({name, number, id}) => {
                             <li key={id}>{name} : {number}</li>
-                           
-                        ))}
+                        })}
                     </ul>
+                    // <ul>
+                    //     {contacts.map(({name, number, id }) => (
+                           
+                    //         <li key={id}>{name} : {number}</li>
+                           
+                    //     ))}
+                    // </ul>
                 )}
             </div>
         );
