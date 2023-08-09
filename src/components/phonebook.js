@@ -117,7 +117,7 @@ export class PhoneBook extends Component {
                     <ul>
                         {filteredContacts.map(({name, number, id})=>(
                             <li key={id}>{name} : {number}
-                            <button type='button' onClick={this.handleRemove} >Delete Contact</button>
+                            <button type='button' onClick={() => this.handleRemove(id)} >Delete Contact</button>
                             </li>
                            
                         ))
