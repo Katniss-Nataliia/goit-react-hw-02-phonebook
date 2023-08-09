@@ -31,31 +31,47 @@ export class PhoneBook extends Component {
         const { contacts, name, number } = this.state;
 
         if (name.trim() && number.trim() !== '') {
-            const newContact = {
-                id: nanoid(),  // Using nanoid() to generate a unique identifier for the new contact
-                name: name,
-                number: number,
-            };
+            if (contacts.some(contact => contact.name === name)){
+                window.alert('Error: Contact already exists.')
+            } else{
+                // If contact doesn't exist, create a new contact object with the current timestamp as the unique 'id'
+                const newContact = {
+                    id: Date.now(),
+                    name: name,
+                    number: number,
+                }
+                // Add the new contact to the contacts array and reset the name field
 
-            // Add the new contact to the contacts array and reset the name field
-            this.setState({
-                contacts: [...contacts, newContact],
-                name: '',
-                number: ''
-            });
-        } else if(name.find(item => item.id === e.id)){
-            window.alert("error")
-        }
+                this.setState(prevState => ({
+                    contacts: [...prevState.contacts, newContact],
+                    name: '',
+                    number: ''
+                }));
+            }
+            
+        } 
     };
+    // Event handler for changes in the filter input field
     handleFilterChange = e => {
         this.setState({
             filter: e.target.value
         })
     }
 
+    handleRemove = contactId => {
+        this.setState(prevState => ({
+            contacts: prevState.contacts.filter(contact => contact.id !== contactId)
+        }))
+    
+    }
+
     render() {
+        // Extract the values from the state for ease of use
         const { number, name, contacts, filter } = this.state;
-        const { handleChange, handleNumberChange, handleSubmit, handleFilterChange } = this;
+        // const { handleChange, handleNumberChange, handleSubmit, handleFilterChange } = this;
+
+         // Filter the contacts based on the 'filter' state
+         const filteredContacts = contacts.filter(contact => contact.name.includes(filter))
 
         return (
             <div>
@@ -68,7 +84,7 @@ export class PhoneBook extends Component {
                     title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan."
                     required
                     value={name} // Bind the input value to the 'name' state
-                    onChange={handleChange} // Call handleChange function when the input value changes
+                    onChange={this.handleChange} // Call handleChange function when the input value changes
                 />
                 <h2>Phone Number</h2>
                 <input
@@ -78,9 +94,9 @@ export class PhoneBook extends Component {
                     title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
                     required
                     value={number}
-                    onChange={handleNumberChange}
+                    onChange={this.handleNumberChange}
                 />
-                <button onClick={handleSubmit}>Add contact</button>
+                <button onClick={this.handleSubmit}>Add contact</button>
 
                 <h2>contact</h2>
 
@@ -89,28 +105,29 @@ export class PhoneBook extends Component {
                 type="text"
                 placeholder="Search by name"
                 value={filter}
-                onChange={handleFilterChange}
+                onChange={this.handleFilterChange}
                 
                 />
 
-                {contacts.length === 0 ? (
+                {filteredContacts.length === 0 ? (
                     // Display "No contacts" if there are no contacts in the 'contacts' array
                     <h2>No contacts</h2>
                 ) : (
                     // Display the list of contacts using the 'ul' and 'li' elements
                     <ul>
-                        {contacts.filter(filter => filter.includes({name})).map(({name, number, id}) => {
-                            <li key={id}>{name} : {number}</li>
-                        })}
+                        {filteredContacts.map(({name, number, id})=>(
+                            <li key={id}>{name} : {number}
+                            <button type='button' onClick={this.handleRemove} >Delete Contact</button>
+                            </li>
+                           
+                        ))
+                        }
+                       
                     </ul>
-                    // <ul>
-                    //     {contacts.map(({name, number, id }) => (
-                           
-                    //         <li key={id}>{name} : {number}</li>
-                           
-                    //     ))}
-                    // </ul>
-                )}
+                     
+                   
+                )}  
+                
             </div>
         );
     }
