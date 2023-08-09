@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
 
+import{
+    MainContainer,
+    ContactsTable,
+    AddContactBttn,
+    ContactDetails,
+    ContactsContainer,
+    FindContact
+} from './phonebook.styled'
+
 export class PhoneBook extends Component {
     constructor(props) {
         super(props);
@@ -68,15 +77,18 @@ export class PhoneBook extends Component {
     render() {
         // Extract the values from the state for ease of use
         const { number, name, contacts, filter } = this.state;
-        // const { handleChange, handleNumberChange, handleSubmit, handleFilterChange } = this;
 
          // Filter the contacts based on the 'filter' state
          const filteredContacts = contacts.filter(contact => contact.name.includes(filter))
 
-        return (
-            <div>
+        const ContactForm = () => {
+            return(
+                <div>
+                    <MainContainer>
+                    <h1>Phonebook</h1>
+                    <ContactsTable>
                 {/* Input field for entering contact name */}
-                <h2>Name</h2>
+                <ContactDetails>Name</ContactDetails>
                 <input
                     type="text"
                     name="name"
@@ -86,7 +98,7 @@ export class PhoneBook extends Component {
                     value={name} // Bind the input value to the 'name' state
                     onChange={this.handleChange} // Call handleChange function when the input value changes
                 />
-                <h2>Phone Number</h2>
+                <ContactDetails>Phone Number</ContactDetails>
                 <input
                     type="tel"
                     name="number"
@@ -95,12 +107,21 @@ export class PhoneBook extends Component {
                     required
                     value={number}
                     onChange={this.handleNumberChange}
-                />
-                <button onClick={this.handleSubmit}>Add contact</button>
+                /> <br></br>
+                <AddContactBttn onClick={this.handleSubmit}>Add contact</AddContactBttn>
+                </ContactsTable>
+                </MainContainer>
+                </div>
 
-                <h2>contact</h2>
-
-                <p>Find contacts by name</p>
+            )
+        }
+        
+        const Filter = () => {
+            return(
+                <div>
+                    <ContactsContainer>
+                    <h2>Contacts</h2>
+                    <FindContact>Find contacts by name</FindContact>
                 <input
                 type="text"
                 placeholder="Search by name"
@@ -116,19 +137,23 @@ export class PhoneBook extends Component {
                     // Display the list of contacts using the 'ul' and 'li' elements
                     <ul>
                         {filteredContacts.map(({name, number, id})=>(
-                            <li key={id}>{name} : {number}
+                            <li key={id}> {name} : {number} 
                             <button type='button' onClick={() => this.handleRemove(id)} >Delete Contact</button>
-                            </li>
-                           
+                            </li>  
                         ))
                         }
-                       
                     </ul>
-                     
-                   
                 )}  
-                
+                </ContactsContainer>
+                </div>
+            )
+        }
+
+        return(
+            <div>
+                <ContactForm></ContactForm>
+                <Filter></Filter>
             </div>
-        );
+        )
     }
 }
