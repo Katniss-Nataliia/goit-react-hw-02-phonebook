@@ -10,12 +10,13 @@ export const ContactsTable = styled.div`
     padding: 5px;
 `
 export const AddContactBttn = styled.button`
-    padding: 3px 15px;
+    padding: 1px 15px;
     margin-top: 5px;
     cursor:pointer;
     background-color: white;
     border-radius: 5px;
-    font-size:12px;
+    font-size:10px;
+    border: 1px solid black;
 `
 export const ContactDetails = styled.p`
     margin:5px;
@@ -25,5 +26,14 @@ export const ContactsContainer = styled.div`
     margin: 10px;
 `
 export const FindContact = styled.p`
-margin-bottom: 5px;
+    margin-bottom: 5px;
+`
+export const RemoveBttn = styled.button`
+    margin-left:5px;
+    cursor:pointer;
+    background-color: white;
+    border-radius: 5px;
+    font-size:10px;
+    padding: 1px 15px;
+    border: 1px solid black;
 `

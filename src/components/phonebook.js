@@ -7,7 +7,8 @@ import{
     AddContactBttn,
     ContactDetails,
     ContactsContainer,
-    FindContact
+    FindContact,
+    RemoveBttn
 } from './phonebook.styled'
 
 export class PhoneBook extends Component {
@@ -51,8 +52,8 @@ export class PhoneBook extends Component {
                 }
                 // Add the new contact to the contacts array and reset the name field
 
-                this.setState(prevState => ({
-                    contacts: [...prevState.contacts, newContact],
+                this.setState(() => ({
+                    contacts: [...contacts, newContact],
                     name: '',
                     number: ''
                 }));
@@ -137,8 +138,9 @@ export class PhoneBook extends Component {
                     // Display the list of contacts using the 'ul' and 'li' elements
                     <ul>
                         {filteredContacts.map(({name, number, id})=>(
-                            <li key={id}> {name} : {number} 
-                            <button type='button' onClick={() => this.handleRemove(id)} >Delete Contact</button>
+                            <li key={id}> {name}: {number} 
+                            
+                            <RemoveBttn type='button' onClick={() => this.handleRemove(id)}>Delete Contact</RemoveBttn>
                             </li>  
                         ))
                         }
